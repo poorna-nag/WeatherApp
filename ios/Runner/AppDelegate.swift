@@ -10,7 +10,7 @@ import GoogleMaps
   ) -> Bool {
     if let mapsKey = Bundle.main.object(forInfoDictionaryKey: "GMSApiKey") as? String,
        !mapsKey.isEmpty {
-      GMSServices.provideAPIKey(mapsKey)
+      GMSServices.provideAPIKey("AIzaSyDiVLzswrwOyQe4ZSM0wbLAxbbnKnXKAnU")
     }
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)

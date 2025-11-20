@@ -1,31 +1,29 @@
-import 'dart:typed_data';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
 
 class UrlTileProvider implements TileProvider {
   final String urlTemplate;
-  final int tileSize;
 
-  UrlTileProvider({required this.urlTemplate, this.tileSize = 256});
+  UrlTileProvider({required this.urlTemplate});
 
   @override
   Future<Tile> getTile(int x, int y, int? zoom) async {
-    final zoomValue = zoom ?? 0;
-    try {
-      final url = urlTemplate
-          .replaceAll('{x}', x.toString())
-          .replaceAll('{y}', y.toString())
-          .replaceAll('{z}', zoomValue.toString());
+    final url = urlTemplate
+        .replaceAll('{x}', x.toString())
+        .replaceAll('{y}', y.toString())
+        .replaceAll('{z}', (zoom ?? 0).toString());
 
-      final res = await http.get(Uri.parse(url));
-      if (res.statusCode == 200) {
-        final Uint8List bytes = res.bodyBytes;
-        return Tile(tileSize, tileSize, bytes);
-      }
-      return TileProvider.noTile;
+    try {
+      final uri = Uri.parse(url);
+      final request = await HttpClient().getUrl(uri);
+      final response = await request.close();
+
+      final bytes = await consolidateHttpClientResponseBytes(response);
+
+      return Tile(256, 256, bytes);
     } catch (e) {
-      // On any error, skip the tile so the base map shows through.
-      return TileProvider.noTile;
+      return Tile(256, 256, Uint8List(0));
     }
   }
 }

@@ -1,5 +1,10 @@
 # Weather App
 
+## App Demo
+
+https://github.com/user-attachments/assets/1c742d98-9141-4853-9afd-7a94c2f9c135
+
+
 Built with Flutter & BLoC
 
 A cross-platform Flutter weather application featuring real-time weather data, interactive maps, and forecast visualization. Built with clean architecture and BLoC pattern for scalable state management.

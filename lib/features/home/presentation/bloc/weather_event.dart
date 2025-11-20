@@ -1,23 +1,20 @@
-class WeatherEvent {}
+abstract class WeatherEvent {}
 
-class LoadWeather extends WeatherEvent {
-  final double lat;
-  final double lon;
-  final String label;
+class GetForecastEvent extends WeatherEvent {
+  final String? city;
 
-  LoadWeather({
-    required this.lat,
-    required this.lon,
-    this.label = 'Selected location',
-  });
+  GetForecastEvent({this.city});
 }
 
-class LoadWeatherByCity extends WeatherEvent {
+class SearchCityEvent extends WeatherEvent {
   final String city;
 
-  LoadWeatherByCity(this.city);
+  SearchCityEvent(this.city);
 }
 
-class RefreshWeather extends WeatherEvent {
-  RefreshWeather();
+class FetchWeatherEvent extends WeatherEvent {
+  final double lat;
+  final double lon;
+
+  FetchWeatherEvent({required this.lat, required this.lon});
 }
